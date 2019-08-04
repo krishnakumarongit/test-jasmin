@@ -13,8 +13,11 @@ class Login extends CI_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'required');
                 $postCheck = $this->input->post('chk');
                 if ($postCheck == 1) {
+                  if ($this->input->post('_token') != $_SESSION['_token']) {
+			die('invalid access');
+                  }
 		  if ($this->form_validation->run() == true) {
-			$query = $this->db->query('SELECT * FROM users WHERE email="'.$this->input->post('email').'" and status = 1 and password="'.md5($this->input->post('password')).'"');
+			$query = $this->db->query('SELECT * FROM users WHERE email="'.$this->input->post('email').'" and status = 1 and login_type = 1 and password="'.md5($this->input->post('password')).'"');
         		$user = $query->row();
                         if ($user) {
                             $_SESSION['id'] = $user->id;
@@ -26,10 +29,12 @@ class Login extends CI_Controller {
                         } 
 		  }
                  }
+                $_SESSION['_token'] = time();
+                $js ='<script src="'.site_url('js/login.js').'"></script>';
 		$meta = array('title' => 'Log in', 'description' => 'Log-in to your account', 'keywords' => 'login');
 		$bc = array('title' => 'Log in', 'link' => '<li><a href="'.base_url().'">Home</a></li><li>Log in</li>');
 		$out = $this->load->view('login', array(), true);
-		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc));
+		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc, 'js' => $js));
 	}
 	
 	public function logout()
@@ -52,9 +57,12 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');   
         $postCheck = $this->input->post('check_post');
             if ($postCheck == 1) {
+                if ($this->input->post('_token') != $_SESSION['_token']) {
+			die('invalid access');
+                }
                 if ($this->form_validation->run() == true) {
-				$sql = "INSERT INTO users (name, email, password, status, created_at, link, everified) VALUES ('".$this->input->post('fullname').
-				"', '".$this->input->post('email')."', '".md5($this->input->post('password'))."',1,'".date('Y-m-d H:i:s')."','',0)";
+				$sql = "INSERT INTO users (name, email, password, status, created_at, link, everified, login_type) VALUES ('".$this->input->post('fullname').
+				"', '".$this->input->post('email')."', '".md5($this->input->post('password'))."',1,'".date('Y-m-d H:i:s')."','',0,1)";
                 $this->db->query($sql);
                 $id = $this->db->insert_id();
                 $link = $id.time();
@@ -62,14 +70,16 @@ class Login extends CI_Controller {
                 $this->db->query($sql);
                 $_SESSION['id'] = $id;
                 $_SESSION['success'] = 'You have successfully registered and logged in.';
-		$this->sendEmail($this->input->post('fullname'), $this->input->post('email'), $link);
+		//$this->sendEmail($this->input->post('fullname'), $this->input->post('email'), $link);
 		redirect(site_url('my-account'));
 		}
 	    }
+                $_SESSION['_token'] = time();
+                $js ='<script src="'.site_url('js/register.js').'"></script>';
 		$meta = array('title' => 'Sign up', 'description' => 'sin-up to '.$this->config->item('site_domain'), 'keywords' => 'sign-up');
 		$bc = array('title' => 'Sign up', 'link' => '<li><a href="'.base_url().'">Home</a></li><li>Sign up</li>');
 		$out = $this->load->view('signup', array(), true);
-		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc));
+		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc, 'js' => $js));
 	}
 
         protected function sendEmail($fullName, $email, $link) 
@@ -110,8 +120,11 @@ This is a system generated mail. Please DO NOT REPLY to this mail.
                 $this->form_validation->set_rules('email', 'Email', 'required|valid_email');   
                 $postCheck = $this->input->post('check_post');
                 if ($postCheck == 1) {
+                    if ($this->input->post('_token') != $_SESSION['_token']) {
+			die('invalid access');
+                    }
                     if ($this->form_validation->run() == true) {
-				$query = $this->db->query('SELECT * FROM users WHERE email="'.$this->input->post('email').'"');
+				$query = $this->db->query('SELECT * FROM users WHERE email="'.$this->input->post('email').'" and login_type = 1');
 				$user = $query->row();
 				if ($user) {
                                     //check if todays email sent is grater than 5
@@ -135,10 +148,12 @@ This is a system generated mail. Please DO NOT REPLY to this mail.
 
                     }
                 }
+		$_SESSION['_token'] = time();
                 $meta = array('title' => 'Forgot Password', 'description' => 'forgot password', 'keywords' => 'forgot password');
 		$bc = array('title' => 'Forgot Password', 'link' => '<li><a href="'.base_url().'">Home</a></li><li>Forgot Password</li>');
 		$out = $this->load->view('forgot', array(), true);
-		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc));
+		$js ='<script src="'.site_url('js/forgot.js').'"></script>';
+		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc, 'js' => $js));
         
         }
         

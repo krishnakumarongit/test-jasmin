@@ -3,6 +3,7 @@
 <!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
 <meta charset="utf-8">
+
 <title><?php echo isset($meta['title']) ? $meta['title'] : ''; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
@@ -219,6 +220,6 @@
 <script src="<?php echo site_url('assets/scripts/stacktable.js'); ?>"></script>
 <script src="<?php echo site_url('assets/scripts/headroom.min.js'); ?>"></script>
 
-
+<?php echo isset($js) ? $js : ''; ?>
 </body>
 </html>

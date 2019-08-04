@@ -9,6 +9,9 @@ $route['everify'] = 'verify/everify';
 $route['reset-success'] = 'verify/newpass';
 $route['log-in'] = "login/index";
 $route['default_controller'] = "welcome";
+$route['auth/oauth2callback'] = 'Auth/oauth2callback';
+$route['google'] = 'Auth/index';
+
 $route['404_override'] = '';
 
 
