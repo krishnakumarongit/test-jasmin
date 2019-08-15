@@ -25,35 +25,55 @@ class Myaccount extends CI_Controller {
 	$this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         
-        $postCheck = $this->input->post('profile');
-		if ($postCheck == 1) {
-		   $temp = 0;
-		   $this->form_validation->set_rules('name', 'Full Name', 'required|min_length[3]');
-		   if ($this->input->post('email') != $user->email) {
-                     $temp = 1;
-                     $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
-	       }  else {
-			   $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-		   }
-		   if ($this->form_validation->run() == true) {
-			    $link = $user->id.time();
-			    $sql = "UPDATE users SET name='".$this->input->post('name')."' WHERE id =".$user->id;
-			    if ($temp == 1) {
-					//send email verification link from here
-					$sql = "UPDATE users SET name='".$this->input->post('name')."',email='".$this->input->post('email')."',link ='".$link."', everified = 0 WHERE id =".$user->id;
-                               
-                                
-			    }
-                $this->db->query($sql);
-                $_SESSION['success'] = 'Your account updated successfully.';
-                if ($temp == 1) {
-                   $this->sendEmail($this->input->post('name'), $this->input->post('email'), $link);
-                }
-                redirect(site_url('my-account'));
-		   }
-		   $user->name = $this->input->post('name');
-		   $user->email = $this->input->post('email');
-		}
+	$postCheck = $this->input->post('profile');
+	if ($postCheck == 1) {
+	   $temp = 0;
+	   $this->form_validation->set_rules('name', 'Full Name', 'required|min_length[3]');
+	   if ($this->input->post('email') != $user->email) {
+	     $temp = 1;
+	     $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+	}  else {
+		   $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+	   }
+	   if ($this->form_validation->run() == true) {
+		    $link = $user->id.time();
+		    $sql = "UPDATE users SET name='".$this->input->post('name')."' WHERE id =".$user->id;
+		    if ($temp == 1) {
+				//send email verification link from here
+			$sql = "UPDATE users SET name='".$this->input->post('name')."',email='".$this->input->post('email')."',link ='".$link."', everified = 0 WHERE id =".$user->id;
+		       
+		        
+		    }
+	$this->db->query($sql);
+	$_SESSION['success'] = 'Your account updated successfully.';
+	if ($temp == 1) {
+	   $this->sendEmail($this->input->post('name'), $this->input->post('email'), $link);
+	}
+	redirect(site_url('my-account'));
+	   }
+	   $user->name = $this->input->post('name');
+	   $user->email = $this->input->post('email');
+	}
+
+$postCheck = $this->input->post('social');
+	if ($postCheck == 1) {
+	   $temp = 0;
+	   $this->form_validation->set_rules('name', 'Full Name', 'required|min_length[3]');
+           if ($this->input->post('contact_email') !="") {
+	   	$this->form_validation->set_rules('contact_email', 'Email', 'required|valid_email');
+	   }
+	   if ($this->form_validation->run() == true) {
+		   
+				//send email verification link from here
+			$sql = "UPDATE users SET name='".$this->input->post('name')."',contact_email='".$this->input->post('contact_email')."' WHERE id =".$user->id;
+		       
+		$this->db->query($sql);
+		$_SESSION['success'] = 'Your account updated successfully.';
+		redirect(site_url('my-account'));
+	   }
+	   $user->name = $this->input->post('name');
+	   $user->contact_email = $this->input->post('contact_email');
+	}
 		
 		
 		$chk = $this->input->post('chk');

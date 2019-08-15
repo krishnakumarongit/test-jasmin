@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 /*
  *---------------------------------------------------------------
@@ -21,6 +19,7 @@ session_start();
  *
  */
 	define('ENVIRONMENT', 'development');
+        define('SITE_ROOT',dirname(__FILE__));
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -47,6 +46,11 @@ if (defined('ENVIRONMENT'))
 			exit('The application environment is not set correctly.');
 	}
 }
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 /*
  *---------------------------------------------------------------
@@ -201,6 +205,8 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+
+include_once './vendor/autoload.php';
 require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */

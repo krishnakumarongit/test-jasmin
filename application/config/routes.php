@@ -11,6 +11,10 @@ $route['log-in'] = "login/index";
 $route['default_controller'] = "welcome";
 $route['auth/oauth2callback'] = 'Auth/oauth2callback';
 $route['google'] = 'Auth/index';
+$route['facebook'] = 'facebook/index';
+$route['facebook/callback'] = 'facebook/callback';
+$route['twitter'] = 'facebook/twitter';
+$route['twitter/callback'] = 'facebook/twittercallback';
 
 $route['404_override'] = '';
 
