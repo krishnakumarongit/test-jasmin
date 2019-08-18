@@ -1,7 +1,6 @@
-<div class="my-account">
-		<div class="tabs-container">
-			<div class="tab-content" id="tab2">
-				<?php 
+
+<a style="font-size:20px;" href="<?php echo site_url('my-account'); ?>"><span class="ln ln-icon-Add-UserStar"></span> My Account</a>&nbsp;&nbsp;<a style="font-size:20px;" href="<?php echo site_url('my-exams'); ?>"><span class="ln ln-icon-Add-File"></span> My Exams</a>
+<?php 
 				   if ($user->everified != 1 && $user->login_type == 1) {
 					   echo '<div class="notification warning closeable">Your email address hasn\'t been verified yet. Look for the verification email in your inbox and click the link in that email.</div>';
 				   }
@@ -11,7 +10,16 @@
 				   if ($user->contact_email == "" && $user->login_type == 2) {
 					   echo '<div class="notification warning closeable">Set a recovery contact email address so we can reach you in case we detect unusual activity in your Account or you accidentally get locked.</div>';
 				   }
+
+				   if ($user->contact_email != "" && $user->everified != 1) {
+					   echo '<div class="notification warning closeable">Your recovery email address hasn\'t been verified yet. Look for the verification email in your inbox and click the link in that email.</div>';
+				   }
+
 				?>
+<div class="my-account" style="margin:0px !important;">
+		<div class="tabs-container">
+			<div class="tab-content" id="tab2">
+				
 
 				<?php 
 				   $error = validation_errors(); 
@@ -33,7 +41,7 @@
 					
 				<p class="form-row form-row-wide">
 					<label for="email2">Contact Email Address:
-						<i class="ln ln-icon-Mail" ></i><span class="show-email"><?php echo $user->contact_email; ?></span>&nbsp;&nbsp;
+						<i class="ln ln-icon-Mail" ></i>&nbsp;&nbsp;
 						<input type="text" class="input-text " name="contact_email" id="email3" value="<?php echo $user->contact_email; ?>"  />
 					</label>
 					<?php echo form_error('contact_email','<span style="color:red;">','</span>'); ?>

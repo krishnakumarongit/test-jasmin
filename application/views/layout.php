@@ -80,9 +80,14 @@
 
 
 			<ul class="responsive float-right">
-				<li><a href="my-account.html#tab2"><i class="fa fa-user"></i> Sign Up</a></li>
-				<li><a href="my-account.html"><i class="fa fa-lock"></i> Log In</a></li>
-			</ul>
+<?php  if (isset($_SESSION['id']) && $_SESSION['id'] > 0 ) { ?>
+<li><a href="<?php echo site_url('my-account'); ?>"><i class="fa fa-user"></i> My Account</a></li>
+<li><a href="<?php echo site_url('logout'); ?>"><i class="fa fa-lock"></i> Logout</a></li>
+<?php } else { ?>
+<li><a href="<?php echo site_url('sign-up'); ?>"><i class="fa fa-user"></i> Sign Up</a></li>
+<li><a href="<?php echo site_url('log-in'); ?>"><i class="fa fa-lock"></i> Log In</a></li>
+<?php } ?>
+	</ul>
 
 		</nav>
 

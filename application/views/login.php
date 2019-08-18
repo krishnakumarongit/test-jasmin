@@ -14,7 +14,15 @@
 				   }
 				?>
 <input type="hidden" value="1" name="chk" />
-<a href="<?php echo site_url('/google'); ?>"><img src="<?php echo site_url('assets/images/google.png'); ?>" alt="sign-in with google" style="height:48px;"></a>
+<div style="text-align:center;height:55px;">
+<ul class="social-icons" style="margin:auto;width:50%;">
+					<li><a class="facebook" href="<?php echo site_url('/facebook'); ?>"><i class="icon-facebook"></i></a></li>
+					<li><a class="twitter" href="<?php echo site_url('/twitter'); ?>"><i class="icon-twitter"></i></a></li>
+					<li><a class="gplus" href="<?php echo site_url('/google'); ?>"><i class="icon-gplus"></i></a></li>
+				</ul>
+<span style="clear:both;">&nbsp;</span>
+</div>
+
 <hr />
 		<p class="form-row form-row-wide">
 			<label for="username">Email:

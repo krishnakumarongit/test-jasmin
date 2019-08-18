@@ -60,14 +60,31 @@ $postCheck = $this->input->post('social');
 	   $temp = 0;
 	   $this->form_validation->set_rules('name', 'Full Name', 'required|min_length[3]');
            if ($this->input->post('contact_email') !="") {
-	   	$this->form_validation->set_rules('contact_email', 'Email', 'required|valid_email');
+		if ($this->input->post('contact_email') != $user->contact_email) {
+			$temp = 1;
+			$this->form_validation->set_rules('contact_email', 'Contact Email', 'required|valid_email|is_unique[users.contact_email]');
+		}  else {
+			$this->form_validation->set_rules('contact_email', 'Contact Email', 'required|valid_email');
+		}
 	   }
+
+	  
 	   if ($this->form_validation->run() == true) {
 		   
-				//send email verification link from here
+		
+			//send email verification link from here
 			$sql = "UPDATE users SET name='".$this->input->post('name')."',contact_email='".$this->input->post('contact_email')."' WHERE id =".$user->id;
-		       
+                if ($temp == 1) {
+			 $link = $user->id.time();
+$sql = "UPDATE users SET name='".$this->input->post('name')."',contact_email='".$this->input->post('contact_email')."',link ='".$link."', everified = 0 WHERE id =".$user->id;
+                 
+                
+                }
+	       
 		$this->db->query($sql);
+                if ($temp == 1) {
+                   $this->sendEmail($this->input->post('name'), $this->input->post('contact_email'), $link);
+                }
 		$_SESSION['success'] = 'Your account updated successfully.';
 		redirect(site_url('my-account'));
 	   }
@@ -125,6 +142,16 @@ This is a system generated mail. Please DO NOT REPLY to this mail.
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		$result = curl_exec($ch);
 		curl_close($ch);
+        }
+
+        public function exams () {
+                $query = $this->db->query('SELECT * FROM users WHERE id='.$this->id);
+                $user = $query->row();
+	        $meta = array('title' => 'My Exams', 'description' => 'My Exams', 'keywords' => '');
+		$bc = array('title' => 'My Exams', 'link' => '<li><a href="'.base_url().'">Home</a></li><li>My Exams</li>');
+		$out = $this->load->view('myexam', array('user' => $user), true);
+		$this->load->view('layout',array('content' => $out,'meta' => $meta, 'bc' => $bc));
+        
         }
 
 
