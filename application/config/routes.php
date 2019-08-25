@@ -16,6 +16,8 @@ $route['facebook/callback'] = 'facebook/callback';
 $route['twitter'] = 'facebook/twitter';
 $route['twitter/callback'] = 'facebook/twittercallback';
 $route['my-exams'] = "myaccount/exams";
+$route['crack'] = "crack/index";
+$route['crack/(:any)'] = 'crack/index/$1';
 
 $route['404_override'] = '';
 
