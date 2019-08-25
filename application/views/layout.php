@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
 <link rel="stylesheet" href="<?php echo site_url('assets/css/colors/green.css'); ?>" id="colors">
 
+<link rel="shortcut icon" href="<?php echo site_url('favicon.ico'); ?>" type="image/x-icon">
+<link rel="icon" href="<?php echo site_url('favicon.ico'); ?>" type="image/x-icon">
+
 <!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->

@@ -59,7 +59,7 @@ header {
 	float: left;
 }
 
-#logo img { margin-top: 24px; }
+#logo img { margin-top: 21px; height:45px; }
 
 
 /* Full-Width Header Styles */

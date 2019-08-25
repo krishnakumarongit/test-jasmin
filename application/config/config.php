@@ -24,8 +24,8 @@
 */
 
 $config['base_url'] = 'http://localhost/qa/';
-$config['site_name'] = 'qa site';
-$config['site_domain'] = 'kkiqa.com';
+$config['site_name'] = 'Deplatt';
+$config['site_domain'] = 'deplatt.com';
 $config['site_email'] = 'admin@kkiqa.com';
 
 /*
